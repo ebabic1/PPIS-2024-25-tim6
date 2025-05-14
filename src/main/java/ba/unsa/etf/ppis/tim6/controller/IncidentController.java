@@ -1,26 +1,69 @@
 package ba.unsa.etf.ppis.tim6.controller;
 
+import ba.unsa.etf.ppis.tim6.dto.IncidentDTO;
+import ba.unsa.etf.ppis.tim6.mapper.IncidentMapper;
 import ba.unsa.etf.ppis.tim6.model.Incident;
 import ba.unsa.etf.ppis.tim6.repository.IncidentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/incidents")
+@RequiredArgsConstructor
 public class IncidentController {
 
-    @Autowired
-    private IncidentRepository incidentRepository;
+    private final IncidentRepository incidentRepository;
+    private final IncidentMapper incidentMapper;
 
+    // Create a new Incident
     @PostMapping
-    public Incident createIncident(@RequestBody Incident incident) {
-        return incidentRepository.save(incident);
+    public ResponseEntity<IncidentDTO> createIncident(@RequestBody IncidentDTO incidentDTO) {
+        Incident incident = incidentMapper.incidentDTOToIncident(incidentDTO);
+        Incident savedIncident = incidentRepository.save(incident);
+        return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(savedIncident));
     }
 
+    // Retrieve all Incidents
     @GetMapping
-    public List<Incident> getAllIncidents() {
-        return incidentRepository.findAll();
+    public ResponseEntity<List<IncidentDTO>> getAllIncidents() {
+        List<IncidentDTO> incidents = incidentRepository.findAll().stream()
+                .map(incidentMapper::incidentToIncidentDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(incidents);
+    }
+
+    // Retrieve a specific Incident by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<IncidentDTO> getIncidentById(@PathVariable Long id) {
+        Optional<Incident> incident = incidentRepository.findById(id);
+        return incident.map(value -> ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(value)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Update an existing Incident by ID
+    @PutMapping("/{id}")
+    public ResponseEntity<IncidentDTO> updateIncident(@PathVariable Long id, @RequestBody IncidentDTO incidentDTO) {
+        return incidentRepository.findById(id).map(existingIncident -> {
+            existingIncident.setTitle(incidentDTO.getTitle());
+            existingIncident.setDescription(incidentDTO.getDescription());
+            existingIncident.setStatus(incidentDTO.getStatus());
+            Incident updatedIncident = incidentRepository.save(existingIncident);
+            return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(updatedIncident));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // Delete an Incident by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
+        if (incidentRepository.existsById(id)) {
+            incidentRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
