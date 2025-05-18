@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportDTO {
-    private Report.ReportType reportType;  // Representing the ReportType enum as String for easy handling
+    private Long report_id;
+    private Report.ReportType report_type;
     private String content;
-    private LocalDateTime createdAt;
-    private Long createdById;
+    private LocalDateTime created_at;
+    private String created_by_name;
 }
