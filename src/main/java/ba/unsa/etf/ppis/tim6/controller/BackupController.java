@@ -1,6 +1,7 @@
 package ba.unsa.etf.ppis.tim6.controller;
 
 import ba.unsa.etf.ppis.tim6.dto.BackupDTO;
+import ba.unsa.etf.ppis.tim6.dto.CreateBackupDTO;
 import ba.unsa.etf.ppis.tim6.mapper.BackupMapper;
 import ba.unsa.etf.ppis.tim6.model.Backup;
 import ba.unsa.etf.ppis.tim6.repository.BackupRepository;
@@ -20,8 +21,8 @@ public class BackupController {
     private final BackupMapper backupMapper;
 
     @PostMapping
-    public ResponseEntity<BackupDTO> createBackup(@RequestBody BackupDTO backupDTO) {
-        Backup backup = backupMapper.backupDTOToBackup(backupDTO);
+    public ResponseEntity<BackupDTO> createBackup(@RequestBody CreateBackupDTO createBackupDTO) {
+        Backup backup = backupMapper.createBackupDTOToBackup(createBackupDTO);
         Backup savedBackup = backupRepository.save(backup);
         return ResponseEntity.ok(backupMapper.backupToBackupDTO(savedBackup));
     }
@@ -47,10 +48,10 @@ public class BackupController {
         Optional<Backup> optionalBackup = backupRepository.findById(id);
         if (optionalBackup.isPresent()) {
             Backup backup = optionalBackup.get();
-            backup.setBackupTime(backupDTO.getBackupTime());
-            backup.setBackupLocation(backupDTO.getBackupLocation());
-            backup.setStatus(backupDTO.getStatus());
-            backup.setBackupSize(backupDTO.getBackupSize());
+            backup.setBackupTime(backupDTO.getBackup_time());
+            backup.setBackupLocation(backupDTO.getBackup_location());
+            backup.setStatus(Backup.Status.valueOf(backupDTO.getStatus()));
+            backup.setBackupSize(backupDTO.getBackup_size());
             Backup updatedBackup = backupRepository.save(backup);
             return ResponseEntity.ok(backupMapper.backupToBackupDTO(updatedBackup));
         }

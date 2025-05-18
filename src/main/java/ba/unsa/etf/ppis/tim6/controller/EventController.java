@@ -50,7 +50,7 @@ public class EventController {
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
         return eventRepository.findById(id).map(existingEvent -> {
             existingEvent.setDescription(eventDTO.getDescription());
-            existingEvent.setSeverityLevel(eventDTO.getSeverityLevel());
+            existingEvent.setSeverityLevel(eventDTO.getSeverity_level());
             existingEvent.setStatus(eventDTO.getStatus());
             Event updatedEvent = eventRepository.save(existingEvent);
             return ResponseEntity.ok(eventMapper.eventToEventDTO(updatedEvent));

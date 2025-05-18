@@ -1,6 +1,5 @@
 package ba.unsa.etf.ppis.tim6.dto;
 
-import ba.unsa.etf.ppis.tim6.model.Documentation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentationDTO {
-    private Documentation.DocumentType documentType;  // Representing the Enum as String for easier transfer
+    private Long document_id;
+    private String document_type;  // Representing the Enum as String for easier transfer
     private String content;
-    private LocalDateTime createdAt;
-    private Long createdBy;  // Representing the user as the user ID
+    private LocalDateTime created_at;
+    private Long created_by;
+    private String created_by_name;
 }

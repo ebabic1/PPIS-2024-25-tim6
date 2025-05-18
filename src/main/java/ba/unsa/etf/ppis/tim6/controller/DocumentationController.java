@@ -36,17 +36,17 @@ public class DocumentationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<DocumentationDTO> createDocumentation(@RequestBody DocumentationDTO documentationDTO) {
-        Documentation documentation = documentationMapper.documentationDTOToDocumentation(documentationDTO);
-        Documentation savedDocumentation = documentationRepository.save(documentation);
-        return ResponseEntity.ok(documentationMapper.documentationToDocumentationDTO(savedDocumentation));
-    }
+//    @PostMapping
+//    public ResponseEntity<DocumentationDTO> createDocumentation(@RequestBody DocumentationDTO documentationDTO) {
+//        Documentation documentation = documentationMapper.documentationDTOToDocumentation(documentationDTO);
+//        Documentation savedDocumentation = documentationRepository.save(documentation);
+//        return ResponseEntity.ok(documentationMapper.documentationToDocumentationDTO(savedDocumentation));
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<DocumentationDTO> updateDocumentation(@PathVariable Long id, @RequestBody DocumentationDTO documentationDTO) {
         return documentationRepository.findById(id).map(existingDocumentation -> {
-            existingDocumentation.setDocumentType(documentationDTO.getDocumentType());
+            existingDocumentation.setDocumentType(Documentation.DocumentType.valueOf(documentationDTO.getDocument_type()));
             existingDocumentation.setContent(documentationDTO.getContent());
             Documentation updatedDocumentation = documentationRepository.save(existingDocumentation);
             return ResponseEntity.ok(documentationMapper.documentationToDocumentationDTO(updatedDocumentation));

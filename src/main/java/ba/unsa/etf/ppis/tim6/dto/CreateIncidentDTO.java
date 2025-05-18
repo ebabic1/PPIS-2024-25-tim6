@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class IncidentDTO {
-    private Long incident_id;
+public class CreateIncidentDTO {
     private String title;
     private String description;
     private String priority;  // Stored as a String for easier transfer (could be Enum name)
@@ -23,5 +22,5 @@ public class IncidentDTO {
     private Long assigned_to; // Instead of the full user, you could just pass the user ID
     private String assigned_to_name;
     private String reported_by_name;
-    private Long eventId;      // Instead of the full event, you could just pass the event ID
+    private Long eventId;
 }

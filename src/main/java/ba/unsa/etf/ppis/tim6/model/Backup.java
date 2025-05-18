@@ -17,7 +17,7 @@ public class Backup {
 
     private LocalDateTime backupTime;
 
-    private Integer backupSize;
+    private String backupSize;
 
     private String backupLocation;
 

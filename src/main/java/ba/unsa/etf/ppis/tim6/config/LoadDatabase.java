@@ -153,7 +153,7 @@ public class LoadDatabase {
             // Entry 1
             Backup backup1 = new Backup();
             backup1.setBackupTime(LocalDateTime.now().minusDays(7));
-            backup1.setBackupSize(1500); // Size in MB
+            backup1.setBackupSize("1500 MB"); // Size in MB
             backup1.setBackupLocation("AWS S3 - Bucket A");
             backup1.setStatus(Backup.Status.SUCCESSFUL);
             backupRepository.save(backup1);
@@ -161,7 +161,7 @@ public class LoadDatabase {
             // Entry 2
             Backup backup2 = new Backup();
             backup2.setBackupTime(LocalDateTime.now().minusDays(1));
-            backup2.setBackupSize(2000); // Size in MB
+            backup2.setBackupSize("2000 MB"); // Size in MB
             backup2.setBackupLocation("Azure Blob - Container B");
             backup2.setStatus(Backup.Status.FAILED);
             backupRepository.save(backup2);
@@ -169,7 +169,7 @@ public class LoadDatabase {
             // Entry 3
             Backup backup3 = new Backup();
             backup3.setBackupTime(LocalDateTime.now());
-            backup3.setBackupSize(1800); // Size in MB
+            backup3.setBackupSize("1800 MB"); // Size in MB
             backup3.setBackupLocation("Google Cloud Storage - Bucket C");
             backup3.setStatus(Backup.Status.SUCCESSFUL);
             backupRepository.save(backup3);

@@ -11,10 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BackupDTO {
-    private Long backup_id;
+public class CreateBackupDTO {
     private LocalDateTime backup_time;
     private String backup_size;
     private String backup_location;
-    private String status;  // Representing the Enum as String for easier transfer
 }

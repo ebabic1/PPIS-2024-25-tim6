@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventDTO {
-    private Event.EventType eventType;  // Representing the EventType enum as String for easy handling
+    private Long event_id;
+    private Event.EventType event_type;  // Representing the EventType enum as String for easy handling
     private String description;
-    private LocalDateTime eventTime;
-    private Event.SeverityLevel severityLevel;  // Representing SeverityLevel enum as String
+    private LocalDateTime event_time;
+    private Event.SeverityLevel severity_level;  // Representing SeverityLevel enum as String
     private Event.Status status;  // Representing Status enum as String
 
 }
