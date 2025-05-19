@@ -26,6 +26,7 @@ public class Backup {
 
     public enum Status {
         SUCCESSFUL,
-        FAILED
+        FAILED,
+        PENDING
     }
 }
