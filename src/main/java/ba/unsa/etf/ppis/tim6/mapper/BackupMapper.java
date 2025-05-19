@@ -31,25 +31,18 @@ public interface BackupMapper {
     default Backup.Status determineStatus(CreateBackupDTO dto) {
         String backupTimeStr = String.valueOf(dto.getBackup_time());
         if (backupTimeStr != null && !backupTimeStr.isEmpty()) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
-                LocalDateTime localDateTime = LocalDateTime.parse(backupTimeStr, formatter);
+            LocalDateTime localDateTime = LocalDateTime.parse(backupTimeStr, formatter);
 
-                Instant backupInstant = localDateTime.toInstant(ZoneOffset.UTC);
+            Instant backupInstant = localDateTime.toInstant(ZoneOffset.UTC);
 
-                Instant now = Instant.now();
+            Instant now = Instant.now();
 
-                if (backupInstant.isAfter(now)) {
-                    return Backup.Status.PENDING;
-                } else {
-                    if (dto.getBackup_size() != null && !dto.getBackup_size().isEmpty()) {
-                        return Backup.Status.SUCCESSFUL;
-                    }
-                }
-            } catch (Exception ignored) {
+            if (backupInstant.isAfter(now)) {
+                return Backup.Status.PENDING;
             }
         }
-        return Backup.Status.FAILED;
+        return Backup.Status.SUCCESSFUL;
     }
 }
