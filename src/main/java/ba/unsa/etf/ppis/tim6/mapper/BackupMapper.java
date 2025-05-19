@@ -9,8 +9,8 @@ import org.mapstruct.ReportingPolicy;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BackupMapper {
@@ -22,20 +22,16 @@ public interface BackupMapper {
     BackupDTO backupToBackupDTO(Backup backup);
 
     @Mapping(target = "backupId", ignore = true)
-    @Mapping(target = "backupTime", source = "backup_time")
+    @Mapping(target = "backupTime", source = "backup_time")  // LocalDateTime mapping
     @Mapping(target = "backupSize", source = "backup_size")
     @Mapping(target = "backupLocation", source = "backup_location")
     @Mapping(target = "status", expression = "java(determineStatus(createBackupDTO))")
     Backup createBackupDTOToBackup(CreateBackupDTO createBackupDTO);
 
     default Backup.Status determineStatus(CreateBackupDTO dto) {
-        String backupTimeStr = String.valueOf(dto.getBackup_time());
-        if (backupTimeStr != null && !backupTimeStr.isEmpty()) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
-            LocalDateTime localDateTime = LocalDateTime.parse(backupTimeStr, formatter);
-
-            Instant backupInstant = localDateTime.toInstant(ZoneOffset.UTC);
+        LocalDateTime backupTime = dto.getBackup_time();
+        if (backupTime != null) {
+            Instant backupInstant = backupTime.atZone(ZoneId.systemDefault()).toInstant();
 
             Instant now = Instant.now();
 
