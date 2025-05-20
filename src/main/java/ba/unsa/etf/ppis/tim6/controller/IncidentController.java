@@ -21,7 +21,6 @@ public class IncidentController {
     private final IncidentRepository incidentRepository;
     private final IncidentMapper incidentMapper;
 
-    // Create a new Incident
     @PostMapping
     public ResponseEntity<IncidentDTO> createIncident(@RequestBody CreateIncidentDTO createIncidentDTO) {
         Incident incident = incidentMapper.createIncidentDTOToIncident(createIncidentDTO);
@@ -29,7 +28,6 @@ public class IncidentController {
         return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(savedIncident));
     }
 
-    // Retrieve all Incidents
     @GetMapping
     public ResponseEntity<List<IncidentDTO>> getAllIncidents() {
         List<IncidentDTO> incidents = incidentRepository.findAll().stream()
@@ -38,7 +36,6 @@ public class IncidentController {
         return ResponseEntity.ok(incidents);
     }
 
-    // Retrieve a specific Incident by ID
     @GetMapping("/{id}")
     public ResponseEntity<IncidentDTO> getIncidentById(@PathVariable Long id) {
         Optional<Incident> incident = incidentRepository.findById(id);
@@ -46,7 +43,6 @@ public class IncidentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Update an existing Incident by ID
     @PutMapping("/{id}")
     public ResponseEntity<IncidentDTO> updateIncident(@PathVariable Long id, @RequestBody IncidentDTO incidentDTO) {
         return incidentRepository.findById(id).map(existingIncident -> {
@@ -58,7 +54,6 @@ public class IncidentController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete an Incident by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
         if (incidentRepository.existsById(id)) {

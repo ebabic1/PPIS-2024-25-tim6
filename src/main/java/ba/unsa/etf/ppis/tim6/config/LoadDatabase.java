@@ -210,7 +210,7 @@ public class LoadDatabase {
             incident1.setStatus(Incident.Status.OPEN);
             incident1.setDateReported(LocalDateTime.now().minusDays(1));
             incident1.setReportedBy(user1);
-            incident1.setAssignedTo(user2);
+            incident1.setAssignedTo(user4);
             incident1.setEvent(event1);
             incidentRepository.save(incident1);
 

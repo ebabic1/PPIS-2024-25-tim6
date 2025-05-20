@@ -1,5 +1,9 @@
 package ba.unsa.etf.ppis.tim6.controller;
 
+import ba.unsa.etf.ppis.tim6.dto.ReportDTO;
+import ba.unsa.etf.ppis.tim6.dto.UserDTO;
+import ba.unsa.etf.ppis.tim6.mapper.ReportMapper;
+import ba.unsa.etf.ppis.tim6.mapper.UserMapper;
 import ba.unsa.etf.ppis.tim6.model.Role;
 import ba.unsa.etf.ppis.tim6.model.User;
 import ba.unsa.etf.ppis.tim6.repository.RoleRepository;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,8 +23,8 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
 
-    // Create a new User
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         Role role = roleRepository.findById(user.getRole().getRoleId())
@@ -29,14 +34,14 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
-    // Retrieve all Users
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userRepository.findAll().stream()
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(users);
     }
 
-    // Retrieve a User by ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -44,7 +49,6 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Update an existing User by ID
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         return userRepository.findById(id).map(existingUser -> {
@@ -57,7 +61,6 @@ public class UserController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete a User by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         if (userRepository.existsById(id)) {

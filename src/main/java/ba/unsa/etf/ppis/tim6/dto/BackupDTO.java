@@ -16,5 +16,5 @@ public class BackupDTO {
     private LocalDateTime backup_time;
     private String backup_size;
     private String backup_location;
-    private String status;  // Representing the Enum as String for easier transfer
+    private String status;
 }

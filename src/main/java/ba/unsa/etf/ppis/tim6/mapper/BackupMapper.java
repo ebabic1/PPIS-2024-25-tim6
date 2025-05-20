@@ -22,7 +22,7 @@ public interface BackupMapper {
     BackupDTO backupToBackupDTO(Backup backup);
 
     @Mapping(target = "backupId", ignore = true)
-    @Mapping(target = "backupTime", source = "backup_time")  // LocalDateTime mapping
+    @Mapping(target = "backupTime", source = "backup_time")
     @Mapping(target = "backupSize", source = "backup_size")
     @Mapping(target = "backupLocation", source = "backup_location")
     @Mapping(target = "status", expression = "java(determineStatus(createBackupDTO))")

@@ -20,7 +20,6 @@ public class ReportController {
     private final ReportRepository reportRepository;
     private final ReportMapper reportMapper;
 
-    // Create a new Report
     @PostMapping
     public ResponseEntity<ReportDTO> createReport(@RequestBody ReportDTO reportDTO) {
         Report report = reportMapper.reportDTOToReport(reportDTO);
@@ -28,7 +27,6 @@ public class ReportController {
         return ResponseEntity.ok(reportMapper.reportToReportDTO(savedReport));
     }
 
-    // Retrieve all Reports
     @GetMapping
     public ResponseEntity<List<ReportDTO>> getAllReports() {
         List<ReportDTO> reports = reportRepository.findAll().stream()
@@ -37,7 +35,6 @@ public class ReportController {
         return ResponseEntity.ok(reports);
     }
 
-    // Retrieve a single Report by ID
     @GetMapping("/{id}")
     public ResponseEntity<ReportDTO> getReportById(@PathVariable Long id) {
         Optional<Report> report = reportRepository.findById(id);
@@ -45,7 +42,6 @@ public class ReportController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Update an existing Report by ID
     @PutMapping("/{id}")
     public ResponseEntity<ReportDTO> updateReport(@PathVariable Long id, @RequestBody ReportDTO reportDTO) {
         return reportRepository.findById(id).map(existingReport -> {
@@ -56,7 +52,6 @@ public class ReportController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete a Report by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReport(@PathVariable Long id) {
         if (reportRepository.existsById(id)) {
