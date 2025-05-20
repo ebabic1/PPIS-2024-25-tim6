@@ -216,7 +216,7 @@ public class LoadDatabase {
 
             Incident incident2 = new Incident();
             incident2.setTitle("Application Server Outage");
-            incident2.setDescription("Application server went down, impacting users.");
+            incident2.setDescription("The affected server was rebooted in safe mode.");
             incident2.setPriority(Incident.Priority.MEDIUM);
             incident2.setStatus(Incident.Status.CLOSED);
             incident2.setDateReported(LocalDateTime.now().minusDays(3));
@@ -224,6 +224,7 @@ public class LoadDatabase {
             incident2.setReportedBy(user2);
             incident2.setAssignedTo(user1);
             incident2.setEvent(event3);
+            incident2.setActionTaken("Temporary barriers and absorbent materials were deployed to contain the water.");
             incidentRepository.save(incident2);
 
             Incident incident3 = new Incident();

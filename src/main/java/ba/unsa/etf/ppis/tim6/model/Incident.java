@@ -41,6 +41,8 @@ public class Incident {
     @JoinColumn(name = "event_id")
     private Event event;
 
+    public String actionTaken;
+
     public enum Priority {
         LOW,
         MEDIUM,

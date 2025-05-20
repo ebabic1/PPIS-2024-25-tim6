@@ -2,6 +2,7 @@ package ba.unsa.etf.ppis.tim6.controller;
 
 import ba.unsa.etf.ppis.tim6.dto.CreateIncidentDTO;
 import ba.unsa.etf.ppis.tim6.dto.IncidentDTO;
+import ba.unsa.etf.ppis.tim6.dto.UpdateIncidentDTO;
 import ba.unsa.etf.ppis.tim6.mapper.IncidentMapper;
 import ba.unsa.etf.ppis.tim6.model.Incident;
 import ba.unsa.etf.ppis.tim6.repository.IncidentRepository;
@@ -44,11 +45,9 @@ public class IncidentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<IncidentDTO> updateIncident(@PathVariable Long id, @RequestBody IncidentDTO incidentDTO) {
+    public ResponseEntity<IncidentDTO> updateIncident(@PathVariable Long id, @RequestBody UpdateIncidentDTO updateIncidentDTO) {
         return incidentRepository.findById(id).map(existingIncident -> {
-            existingIncident.setTitle(incidentDTO.getTitle());
-            existingIncident.setDescription(incidentDTO.getDescription());
-            existingIncident.setStatus(Incident.Status.valueOf(incidentDTO.getStatus()));
+            existingIncident.setActionTaken(updateIncidentDTO.getAction_taken());
             Incident updatedIncident = incidentRepository.save(existingIncident);
             return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(updatedIncident));
         }).orElse(ResponseEntity.notFound().build());

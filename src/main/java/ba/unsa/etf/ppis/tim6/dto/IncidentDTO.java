@@ -15,13 +15,14 @@ public class IncidentDTO {
     private Long incident_id;
     private String title;
     private String description;
-    private String priority;  // Stored as a String for easier transfer (could be Enum name)
-    private String status;    // Stored as a String for easier transfer (could be Enum name)
+    private String priority;
+    private String status;
     private LocalDateTime date_reported;
     private LocalDateTime date_resolved;
-    private Long reported_by; // Instead of the full user, you could just pass the user ID
-    private Long assigned_to; // Instead of the full user, you could just pass the user ID
+    private Long reported_by;
+    private Long assigned_to;
     private String assigned_to_name;
     private String reported_by_name;
-    private Long eventId;      // Instead of the full event, you could just pass the event ID
+    private Long eventId;
+    private String action_taken;
 }
