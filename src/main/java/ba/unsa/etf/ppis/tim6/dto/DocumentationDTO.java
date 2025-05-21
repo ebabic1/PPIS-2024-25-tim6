@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DocumentationDTO {
     private Long document_id;
-    private String document_type;  // Representing the Enum as String for easier transfer
-    private String content;
+    private String file_name;
+    private String document_type;
+    private byte[] content;
     private LocalDateTime created_at;
     private Long created_by;
     private String created_by_name;

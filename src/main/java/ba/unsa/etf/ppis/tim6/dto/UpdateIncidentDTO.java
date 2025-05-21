@@ -14,4 +14,6 @@ import java.time.LocalDateTime;
 public class UpdateIncidentDTO {
     private Long incident_id;
     public String action_taken;
+    public String status;
+    public LocalDateTime date_resolved;
 }

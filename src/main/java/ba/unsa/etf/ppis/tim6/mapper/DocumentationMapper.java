@@ -18,6 +18,7 @@ public abstract class DocumentationMapper {
     @Mapping(target = "created_at", source = "createdAt", qualifiedByName = "formatDateTime")
     @Mapping(target = "created_by", source = "createdBy.userId")
     @Mapping(target = "created_by_name", source = "createdBy.username")
+    @Mapping(target = "file_name", source = "fileName")
     public abstract DocumentationDTO documentationToDocumentationDTO(Documentation documentation);
 
     @Named("formatDateTime")

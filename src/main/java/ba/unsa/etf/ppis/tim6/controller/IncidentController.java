@@ -37,6 +37,15 @@ public class IncidentController {
         return ResponseEntity.ok(incidents);
     }
 
+    @GetMapping("/non-escalated")
+    public ResponseEntity<List<IncidentDTO>> getNonEscalatedIncidents() {
+        List<Incident.Status> nonEscalatedStatuses = List.of(Incident.Status.OPEN, Incident.Status.CLOSED);
+        List<IncidentDTO> nonEscalatedIncidents = incidentRepository.findByStatusIn(nonEscalatedStatuses).stream()
+                .map(incidentMapper::incidentToIncidentDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(nonEscalatedIncidents);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<IncidentDTO> getIncidentById(@PathVariable Long id) {
         Optional<Incident> incident = incidentRepository.findById(id);
@@ -48,6 +57,8 @@ public class IncidentController {
     public ResponseEntity<IncidentDTO> updateIncident(@PathVariable Long id, @RequestBody UpdateIncidentDTO updateIncidentDTO) {
         return incidentRepository.findById(id).map(existingIncident -> {
             existingIncident.setActionTaken(updateIncidentDTO.getAction_taken());
+            existingIncident.setStatus(Incident.Status.valueOf(updateIncidentDTO.getStatus()));
+            existingIncident.setDateResolved(updateIncidentDTO.getDate_resolved());
             Incident updatedIncident = incidentRepository.save(existingIncident);
             return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(updatedIncident));
         }).orElse(ResponseEntity.notFound().build());

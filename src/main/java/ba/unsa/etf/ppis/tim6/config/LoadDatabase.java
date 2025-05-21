@@ -5,7 +5,10 @@ import ba.unsa.etf.ppis.tim6.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 @Configuration
@@ -176,28 +179,34 @@ public class LoadDatabase {
 
             System.out.println("Sample backup entries initialized.");
 
+            String pdfFilePath = new ClassPathResource("pdfs/emergency_document.pdf").getFile().getPath();
+            byte[] pdfBytes = Files.readAllBytes(Paths.get(pdfFilePath));
+
             // Entry 1: Emergency Document
             Documentation doc1 = new Documentation();
             doc1.setDocumentType(Documentation.DocumentType.EMERGENCY);
-            doc1.setContent("This document provides guidelines for handling emergency situations in the system.");
+            doc1.setContent(pdfBytes);
             doc1.setCreatedAt(LocalDateTime.now().minusDays(10));
             doc1.setCreatedBy(user1);
+            doc1.setFileName("emergency_document.pdf");
             documentationRepository.save(doc1);
 
             // Entry 2: Technical Guide
             Documentation doc2 = new Documentation();
             doc2.setDocumentType(Documentation.DocumentType.TECHNICAL_GUIDE);
-            doc2.setContent("This technical guide describes the deployment process for the application.");
+            doc2.setContent(pdfBytes);
             doc2.setCreatedAt(LocalDateTime.now().minusDays(5));
             doc2.setCreatedBy(user2);
+            doc2.setFileName("emergency_document.pdf");
             documentationRepository.save(doc2);
 
             // Entry 3: Another Emergency Document
             Documentation doc3 = new Documentation();
             doc3.setDocumentType(Documentation.DocumentType.EMERGENCY);
-            doc3.setContent("Steps to follow during data breaches or unauthorized access incidents.");
+            doc3.setContent(pdfBytes);
             doc3.setCreatedAt(LocalDateTime.now().minusDays(1));
             doc3.setCreatedBy(user1);
+            doc3.setFileName("emergency_document.pdf");
             documentationRepository.save(doc3);
 
             System.out.println("Sample documentation entries initialized.");
@@ -210,7 +219,7 @@ public class LoadDatabase {
             incident1.setStatus(Incident.Status.OPEN);
             incident1.setDateReported(LocalDateTime.now().minusDays(1));
             incident1.setReportedBy(user1);
-            incident1.setAssignedTo(user4);
+            incident1.setAssignedTo(user2);
             incident1.setEvent(event1);
             incidentRepository.save(incident1);
 

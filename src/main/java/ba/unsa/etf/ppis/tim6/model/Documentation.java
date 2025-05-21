@@ -3,6 +3,8 @@ package ba.unsa.etf.ppis.tim6.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -18,8 +20,11 @@ public class Documentation {
     @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
+    private String fileName;
+
     @Lob
-    private String content;
+    @JdbcTypeCode(SqlTypes.BLOB)
+    private byte[] content;
 
     private LocalDateTime createdAt;
 

@@ -5,6 +5,8 @@ import ba.unsa.etf.ppis.tim6.mapper.DocumentationMapper;
 import ba.unsa.etf.ppis.tim6.model.Documentation;
 import ba.unsa.etf.ppis.tim6.repository.DocumentationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,27 @@ public class DocumentationController {
     public ResponseEntity<List<DocumentationDTO>> getAllDocumentations() {
         List<Documentation> documentations = documentationRepository.findAll();
         List<DocumentationDTO> documentationDTOs = documentations.stream()
-                .map(documentationMapper::documentationToDocumentationDTO)
+                .map(documentation -> {
+                    DocumentationDTO dto = documentationMapper.documentationToDocumentationDTO(documentation);
+                    dto.setCreated_by_name(documentation.getCreatedBy().getUsername());
+                    return dto;
+                })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(documentationDTOs);
+    }
+
+    @GetMapping("/{id}/download")
+    public ResponseEntity<byte[]> downloadDocumentation(@PathVariable Long id) {
+        Documentation documentation = documentationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Documentation not found"));
+
+        byte[] content = documentation.getContent();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + documentation.getFileName() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(content);
     }
 
     @GetMapping("/{id}")
