@@ -31,9 +31,9 @@ public class Event {
     private Status status;
 
     public enum EventType {
-        FLOOD,
-        FIRE,
-        APPLICATION_ERROR
+        INCIDENT,
+        WARNING,
+        INFORMATION
     }
 
     public enum SeverityLevel {

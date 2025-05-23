@@ -14,13 +14,12 @@ import java.time.LocalDateTime;
 public class CreateIncidentDTO {
     private String title;
     private String description;
-    private String priority;  // Stored as a String for easier transfer (could be Enum name)
-    private String status;    // Stored as a String for easier transfer (could be Enum name)
+    private String priority;
     private LocalDateTime date_reported;
     private LocalDateTime date_resolved;
-    private Long reported_by; // Instead of the full user, you could just pass the user ID
-    private Long assigned_to; // Instead of the full user, you could just pass the user ID
+    private Long reported_by;
     private String assigned_to_name;
     private String reported_by_name;
     private Long eventId;
+    public String status;
 }

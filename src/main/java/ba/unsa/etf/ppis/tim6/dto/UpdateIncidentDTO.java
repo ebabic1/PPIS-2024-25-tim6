@@ -16,4 +16,5 @@ public class UpdateIncidentDTO {
     public String action_taken;
     public String status;
     public LocalDateTime date_resolved;
+    private Long assigned_to;
 }

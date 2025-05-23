@@ -120,7 +120,7 @@ public class LoadDatabase {
 
             // Event Entries
             Event event1 = new Event();
-            event1.setEventType(Event.EventType.FLOOD);
+            event1.setEventType(Event.EventType.WARNING);
             event1.setDescription("Flood detected in the primary data center. Immediate action required.");
             event1.setEventTime(LocalDateTime.now().minusDays(1));
             event1.setSeverityLevel(Event.SeverityLevel.CRITICAL);
@@ -128,7 +128,7 @@ public class LoadDatabase {
             eventRepository.save(event1);
 
             Event event2 = new Event();
-            event2.setEventType(Event.EventType.FIRE);
+            event2.setEventType(Event.EventType.WARNING);
             event2.setDescription("Fire alarm triggered in the warehouse. Evacuation in progress.");
             event2.setEventTime(LocalDateTime.now().minusDays(3));
             event2.setSeverityLevel(Event.SeverityLevel.HIGH);
@@ -136,7 +136,7 @@ public class LoadDatabase {
             eventRepository.save(event2);
 
             Event event3 = new Event();
-            event3.setEventType(Event.EventType.APPLICATION_ERROR);
+            event3.setEventType(Event.EventType.INFORMATION);
             event3.setDescription("Application server error, users unable to access the system.");
             event3.setEventTime(LocalDateTime.now().minusHours(2));
             event3.setSeverityLevel(Event.SeverityLevel.MEDIUM);
@@ -144,7 +144,7 @@ public class LoadDatabase {
             eventRepository.save(event3);
 
             Event event4 = new Event();
-            event4.setEventType(Event.EventType.FLOOD);
+            event4.setEventType(Event.EventType.INCIDENT);
             event4.setDescription("Flood warning for secondary backup systems. Monitoring in progress.");
             event4.setEventTime(LocalDateTime.now());
             event4.setSeverityLevel(Event.SeverityLevel.LOW);
@@ -246,6 +246,17 @@ public class LoadDatabase {
             incident3.setAssignedTo(user2);
             incident3.setEvent(event2);
             incidentRepository.save(incident3);
+
+            // Incident Entries
+            Incident incident4 = new Incident();
+            incident4.setTitle("Data Center Flood");
+            incident4.setDescription("Water leakage detected in data center. Possible equipment damage.");
+            incident4.setPriority(Incident.Priority.HIGH);
+            incident4.setStatus(Incident.Status.OPEN);
+            incident4.setDateReported(LocalDateTime.now().minusDays(1));
+            incident4.setReportedBy(user1);
+            incident4.setEvent(event1);
+            incidentRepository.save(incident4);
 
             System.out.println("Sample incident entries initialized.");
 

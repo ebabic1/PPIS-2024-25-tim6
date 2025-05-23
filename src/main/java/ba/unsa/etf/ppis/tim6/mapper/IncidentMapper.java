@@ -34,7 +34,6 @@ public abstract class IncidentMapper {
     @Mapping(target = "dateReported", source = "date_reported", qualifiedByName = "parseDateTime")
     @Mapping(target = "dateResolved", source = "date_resolved", qualifiedByName = "parseDateTime")
     @Mapping(target = "reportedBy", source = "reported_by", qualifiedByName = "longToUser")
-    @Mapping(target = "assignedTo", source = "assigned_to", qualifiedByName = "longToUser")
     public abstract Incident createIncidentDTOToIncident(CreateIncidentDTO createIncidentDTO);
 
     @Named("longToUser")

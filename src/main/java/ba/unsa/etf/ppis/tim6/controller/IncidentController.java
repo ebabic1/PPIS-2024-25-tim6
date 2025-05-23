@@ -6,6 +6,7 @@ import ba.unsa.etf.ppis.tim6.dto.UpdateIncidentDTO;
 import ba.unsa.etf.ppis.tim6.mapper.IncidentMapper;
 import ba.unsa.etf.ppis.tim6.model.Incident;
 import ba.unsa.etf.ppis.tim6.repository.IncidentRepository;
+import ba.unsa.etf.ppis.tim6.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,12 @@ public class IncidentController {
 
     private final IncidentRepository incidentRepository;
     private final IncidentMapper incidentMapper;
+    private final UserRepository userRepository;
 
     @PostMapping
     public ResponseEntity<IncidentDTO> createIncident(@RequestBody CreateIncidentDTO createIncidentDTO) {
+        if (createIncidentDTO.getStatus() == null)
+            createIncidentDTO.setStatus(String.valueOf(Incident.Status.OPEN));
         Incident incident = incidentMapper.createIncidentDTOToIncident(createIncidentDTO);
         Incident savedIncident = incidentRepository.save(incident);
         return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(savedIncident));
@@ -37,13 +41,31 @@ public class IncidentController {
         return ResponseEntity.ok(incidents);
     }
 
+    @GetMapping("/non-escalated-and-assigned")
+    public ResponseEntity<List<IncidentDTO>> getNonEscalatedAndAssignedIncidents() {
+        List<Incident.Status> nonEscalatedStatuses = List.of(Incident.Status.OPEN, Incident.Status.CLOSED);
+        List<IncidentDTO> nonEscalatedAndAssignedIncidents = incidentRepository.findByStatusInAndAssignedToIsNotNull(nonEscalatedStatuses).stream()
+                .map(incidentMapper::incidentToIncidentDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(nonEscalatedAndAssignedIncidents);
+    }
+
+    @GetMapping("/non-escalated-and-not-assigned")
+    public ResponseEntity<List<IncidentDTO>> getNonEscalatedAndNotAssignedIncidents() {
+        List<Incident.Status> nonEscalatedAndNotAssignedStatuses = List.of(Incident.Status.OPEN, Incident.Status.CLOSED);
+        List<IncidentDTO> nonEscalated = incidentRepository.findByStatusInAndAssignedToIsNull(nonEscalatedAndNotAssignedStatuses).stream()
+                .map(incidentMapper::incidentToIncidentDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(nonEscalated);
+    }
+
     @GetMapping("/non-escalated")
     public ResponseEntity<List<IncidentDTO>> getNonEscalatedIncidents() {
         List<Incident.Status> nonEscalatedStatuses = List.of(Incident.Status.OPEN, Incident.Status.CLOSED);
-        List<IncidentDTO> nonEscalatedIncidents = incidentRepository.findByStatusIn(nonEscalatedStatuses).stream()
+        List<IncidentDTO> nonEscalated = incidentRepository.findByStatusIn(nonEscalatedStatuses).stream()
                 .map(incidentMapper::incidentToIncidentDTO)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(nonEscalatedIncidents);
+        return ResponseEntity.ok(nonEscalated);
     }
 
     @GetMapping("/{id}")
@@ -56,9 +78,18 @@ public class IncidentController {
     @PutMapping("/{id}")
     public ResponseEntity<IncidentDTO> updateIncident(@PathVariable Long id, @RequestBody UpdateIncidentDTO updateIncidentDTO) {
         return incidentRepository.findById(id).map(existingIncident -> {
-            existingIncident.setActionTaken(updateIncidentDTO.getAction_taken());
-            existingIncident.setStatus(Incident.Status.valueOf(updateIncidentDTO.getStatus()));
-            existingIncident.setDateResolved(updateIncidentDTO.getDate_resolved());
+            if (updateIncidentDTO.getAction_taken() != null)
+                existingIncident.setActionTaken(updateIncidentDTO.getAction_taken());
+
+            if (updateIncidentDTO.getStatus() != null)
+                existingIncident.setStatus(Incident.Status.valueOf(updateIncidentDTO.getStatus()));
+
+            if(existingIncident.getDateResolved() != null)
+                existingIncident.setDateResolved(updateIncidentDTO.getDate_resolved());
+
+            if (updateIncidentDTO.getAssigned_to() != null) {
+                userRepository.findById(updateIncidentDTO.getAssigned_to()).ifPresent(existingIncident::setAssignedTo);
+            }
             Incident updatedIncident = incidentRepository.save(existingIncident);
             return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(updatedIncident));
         }).orElse(ResponseEntity.notFound().build());
