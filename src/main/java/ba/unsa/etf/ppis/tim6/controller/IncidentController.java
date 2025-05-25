@@ -2,6 +2,7 @@ package ba.unsa.etf.ppis.tim6.controller;
 
 import ba.unsa.etf.ppis.tim6.dto.CreateIncidentDTO;
 import ba.unsa.etf.ppis.tim6.dto.IncidentDTO;
+import ba.unsa.etf.ppis.tim6.dto.IncidentStatsDTO;
 import ba.unsa.etf.ppis.tim6.dto.UpdateIncidentDTO;
 import ba.unsa.etf.ppis.tim6.mapper.IncidentMapper;
 import ba.unsa.etf.ppis.tim6.model.Incident;
@@ -103,4 +104,24 @@ public class IncidentController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/stats")
+    public ResponseEntity<IncidentStatsDTO> getIncidentStats() {
+        int open = incidentRepository.countByStatus(Incident.Status.OPEN);
+        int closed = incidentRepository.countByStatus(Incident.Status.CLOSED);
+        int total = open + closed;
+
+        IncidentStatsDTO stats = new IncidentStatsDTO(total, open, closed);
+        return ResponseEntity.ok(stats);
+    }
+
+    @PutMapping("/{id}/escalate")
+    public ResponseEntity<IncidentDTO> escalateIncident(@PathVariable Long id) {
+        return incidentRepository.findById(id).map(incident -> {
+            incident.setStatus(Incident.Status.ESCALATED);
+            Incident updated = incidentRepository.save(incident);
+            return ResponseEntity.ok(incidentMapper.incidentToIncidentDTO(updated));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
 }

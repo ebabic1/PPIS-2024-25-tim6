@@ -11,4 +11,5 @@ public interface IncidentRepository extends JpaRepository<Incident, Long> {
     List<Incident> findByStatusInAndAssignedToIsNotNull(List<Incident.Status> statuses);
     List<Incident> findByStatusInAndAssignedToIsNull(List<Incident.Status> statuses);
     List<Incident> findByStatusIn(List<Incident.Status> statuses);
+    int countByStatus(Incident.Status status);
 }

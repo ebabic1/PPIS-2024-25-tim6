@@ -119,6 +119,14 @@ public class LoadDatabase {
             System.out.println("Sample user entries initialized.");
 
             // Event Entries
+            Event event7 = new Event();
+            event7.setEventType(Event.EventType.WARNING);
+            event7.setDescription("Barcode scanning system delay reported in Zone B.");
+            event7.setEventTime(LocalDateTime.now().minusHours(3));
+            event7.setSeverityLevel(Event.SeverityLevel.LOW);
+            event7.setStatus(Event.Status.ACTIVE);
+            eventRepository.save(event7);
+
             Event event1 = new Event();
             event1.setEventType(Event.EventType.WARNING);
             event1.setDescription("Flood detected in the primary data center. Immediate action required.");
@@ -126,6 +134,14 @@ public class LoadDatabase {
             event1.setSeverityLevel(Event.SeverityLevel.CRITICAL);
             event1.setStatus(Event.Status.ACTIVE);
             eventRepository.save(event1);
+
+            Event event5 = new Event();
+            event5.setEventType(Event.EventType.WARNING);
+            event5.setDescription("Temperature deviation detected in cold storage section.");
+            event5.setEventTime(LocalDateTime.now().minusHours(6));
+            event5.setSeverityLevel(Event.SeverityLevel.MEDIUM);
+            event5.setStatus(Event.Status.ACTIVE);
+            eventRepository.save(event5);
 
             Event event2 = new Event();
             event2.setEventType(Event.EventType.WARNING);
@@ -144,12 +160,20 @@ public class LoadDatabase {
             eventRepository.save(event3);
 
             Event event4 = new Event();
-            event4.setEventType(Event.EventType.INCIDENT);
+            event4.setEventType(Event.EventType.WARNING);
             event4.setDescription("Flood warning for secondary backup systems. Monitoring in progress.");
             event4.setEventTime(LocalDateTime.now());
             event4.setSeverityLevel(Event.SeverityLevel.LOW);
             event4.setStatus(Event.Status.ACTIVE);
             eventRepository.save(event4);
+
+            Event event9 = new Event();
+            event9.setEventType(Event.EventType.INFORMATION);
+            event9.setDescription("Inventory software update applied successfully in warehouse system.");
+            event9.setEventTime(LocalDateTime.now().minusDays(1).minusHours(2));
+            event9.setSeverityLevel(Event.SeverityLevel.LOW);
+            event9.setStatus(Event.Status.COMPLETED);
+            eventRepository.save(event9);
 
             System.out.println("Sample event entries initialized.");
 
@@ -157,7 +181,7 @@ public class LoadDatabase {
             Backup backup1 = new Backup();
             backup1.setBackupTime(LocalDateTime.now().minusDays(7));
             backup1.setBackupSize("1500 MB"); // Size in MB
-            backup1.setBackupLocation("AWS S3 - Bucket A");
+            backup1.setBackupLocation("AWS S3");
             backup1.setStatus(Backup.Status.SUCCESSFUL);
             backupRepository.save(backup1);
 
@@ -165,17 +189,25 @@ public class LoadDatabase {
             Backup backup2 = new Backup();
             backup2.setBackupTime(LocalDateTime.now().minusDays(1));
             backup2.setBackupSize("2000 MB"); // Size in MB
-            backup2.setBackupLocation("Azure Blob - Container B");
+            backup2.setBackupLocation("Azure Blob");
             backup2.setStatus(Backup.Status.FAILED);
             backupRepository.save(backup2);
 
             // Entry 3
             Backup backup3 = new Backup();
-            backup3.setBackupTime(LocalDateTime.now());
+            backup3.setBackupTime(LocalDateTime.now().plusDays(3));
             backup3.setBackupSize("1800 MB"); // Size in MB
-            backup3.setBackupLocation("Google Cloud Storage - Bucket C");
-            backup3.setStatus(Backup.Status.SUCCESSFUL);
+            backup3.setBackupLocation("Google Cloud Storage");
+            backup3.setStatus(Backup.Status.PENDING);
             backupRepository.save(backup3);
+
+            // Entry 4
+            Backup backup4 = new Backup();
+            backup4.setBackupTime(LocalDateTime.now().minusDays(3));
+            backup4.setBackupSize("1300 MB"); // Size in MB
+            backup4.setBackupLocation("Google Cloud Storage");
+            backup4.setStatus(Backup.Status.FAILED);
+            backupRepository.save(backup4);
 
             System.out.println("Sample backup entries initialized.");
 
@@ -219,7 +251,7 @@ public class LoadDatabase {
             incident1.setStatus(Incident.Status.OPEN);
             incident1.setDateReported(LocalDateTime.now().minusDays(1));
             incident1.setReportedBy(user1);
-            incident1.setAssignedTo(user2);
+            incident1.setAssignedTo(user3);
             incident1.setEvent(event1);
             incidentRepository.save(incident1);
 
@@ -231,7 +263,7 @@ public class LoadDatabase {
             incident2.setDateReported(LocalDateTime.now().minusDays(3));
             incident2.setDateResolved(LocalDateTime.now().minusDays(2));
             incident2.setReportedBy(user2);
-            incident2.setAssignedTo(user1);
+            incident2.setAssignedTo(user4);
             incident2.setEvent(event3);
             incident2.setActionTaken("Temporary barriers and absorbent materials were deployed to contain the water.");
             incidentRepository.save(incident2);
@@ -243,7 +275,7 @@ public class LoadDatabase {
             incident3.setStatus(Incident.Status.ESCALATED);
             incident3.setDateReported(LocalDateTime.now().minusHours(4));
             incident3.setReportedBy(user1);
-            incident3.setAssignedTo(user2);
+            incident3.setAssignedTo(user4);
             incident3.setEvent(event2);
             incidentRepository.save(incident3);
 
