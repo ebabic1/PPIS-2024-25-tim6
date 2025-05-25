@@ -10,6 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class LoadDatabase {
@@ -21,6 +23,8 @@ public class LoadDatabase {
     private final BackupRepository backupRepository;
     private final DocumentationRepository documentationRepository;
     private final ReportRepository reportRepository;
+    private final DeviceRepository deviceRepository;
+    private final SensorDataRepository sensorDataRepository;
 
     public LoadDatabase(EventRepository eventRepository,
                         IncidentRepository incidentRepository,
@@ -28,7 +32,9 @@ public class LoadDatabase {
                         UserRepository userRepository,
                         BackupRepository backupRepository,
                         DocumentationRepository documentationRepository,
-                        ReportRepository reportRepository) {
+                        ReportRepository reportRepository,
+                        SensorDataRepository sensorDataRepository,
+                        DeviceRepository deviceRepository) {
         this.eventRepository = eventRepository;
         this.incidentRepository = incidentRepository;
         this.roleRepository = roleRepository;
@@ -36,6 +42,8 @@ public class LoadDatabase {
         this.backupRepository = backupRepository;
         this.documentationRepository = documentationRepository;
         this.reportRepository = reportRepository;
+        this.sensorDataRepository = sensorDataRepository;
+        this.deviceRepository = deviceRepository;
     }
 
     @Bean
@@ -49,6 +57,8 @@ public class LoadDatabase {
             documentationRepository.deleteAll();
             userRepository.deleteAll();
             roleRepository.deleteAll();
+            sensorDataRepository.deleteAll();
+            deviceRepository.deleteAll();
 
             System.out.println("All previous entries removed from the database.");
 
@@ -315,6 +325,265 @@ public class LoadDatabase {
             reportRepository.save(report3);
 
             System.out.println("Sample report entries initialized.");
+
+            Device device1 = new Device();
+            device1.setName("Air-cooled condenser unit 3");
+            device1.setType("Device 1");
+            device1.setXCoordinate(630);
+            device1.setYCoordinate(123);
+
+            Device device2 = new Device();
+            device2.setName("Air-cooled condenser unit 5");
+            device2.setType("Device 2");
+            device2.setXCoordinate(630);
+            device2.setYCoordinate(270);
+
+            Device device3 = new Device();
+            device3.setName("Ventilation fan unit 5");
+            device3.setType("Device 3");
+            device3.setXCoordinate(630);
+            device3.setYCoordinate(400);
+
+            Device device4 = new Device();
+            device4.setName("Window air conditioner 1");
+            device4.setType("Device 4");
+            device4.setXCoordinate(630);
+            device4.setYCoordinate(500);
+
+            Device device6 = new Device();
+            device6.setName("Ventilation fan unit 3");
+            device6.setType("Device 6");
+            device6.setXCoordinate(435);
+            device6.setYCoordinate(470);
+
+            Device device7 = new Device();
+            device7.setName("Ventilation fan unit 4");
+            device7.setType("Device 7");
+            device7.setXCoordinate(435);
+            device7.setYCoordinate(520);
+
+            Device device8 = new Device();
+            device8.setName("Ventilation fan unit 2");
+            device8.setType("Device 8");
+            device8.setXCoordinate(285);
+            device8.setYCoordinate(520);
+
+            Device device9 = new Device();
+            device9.setName("Air-cooled condenser unit 4");
+            device9.setType("Device 9");
+            device9.setXCoordinate(288);
+            device9.setYCoordinate(280);
+
+            Device device10 = new Device();
+            device10.setName("Network cabinet 3");
+            device10.setType("Device 10");
+            device10.setXCoordinate(222);
+            device10.setYCoordinate(320);
+
+            Device device11 = new Device();
+            device11.setName("Network cabinet 2");
+            device11.setType("Device 11");
+            device11.setXCoordinate(222);
+            device11.setYCoordinate(260);
+
+            Device device12 = new Device();
+            device12.setName("Air-cooled condenser unit 2");
+            device12.setType("Device 12");
+            device12.setXCoordinate(410);
+            device12.setYCoordinate(130);
+
+            Device device13 = new Device();
+            device13.setName("Power distribution system 1");
+            device13.setType("Device 13");
+            device13.setXCoordinate(410);
+            device13.setYCoordinate(280);
+
+            Device device14 = new Device();
+            device14.setName("Power distribution system 2");
+            device14.setType("Device 14");
+            device14.setXCoordinate(510);
+            device14.setYCoordinate(280);
+
+            Device device15 = new Device();
+            device15.setName("Air-cooled condenser unit 1");
+            device15.setType("Device 15");
+            device15.setXCoordinate(290);
+            device15.setYCoordinate(130);
+
+            Device device16 = new Device();
+            device16.setName("Network cabinet 1");
+            device16.setType("Device 16");
+            device16.setXCoordinate(223);
+            device16.setYCoordinate(120);
+
+            Device device17 = new Device();
+            device17.setName("Network cabinet 4");
+            device17.setType("Device 17");
+            device17.setXCoordinate(222);
+            device17.setYCoordinate(420);
+
+            Device device18 = new Device();
+            device18.setName("Ventilation fan unit 1");
+            device18.setType("Device 18");
+            device18.setXCoordinate(284);
+            device18.setYCoordinate(410);
+
+            SensorData sensor1 = new SensorData();
+            sensor1.setDischargePressure(212.5);
+            sensor1.setFanMotorCurrent(5.3);
+            sensor1.setTimestamp(LocalDateTime.now().minusMinutes(10));
+            sensor1.setDevice(device1);
+
+            SensorData sensor2 = new SensorData();
+            sensor2.setDischargePressure(200);
+            sensor2.setFanMotorCurrent(2.3);
+            sensor2.setTimestamp(LocalDateTime.now().minusMinutes(9));
+            sensor2.setDevice(device2);
+
+            SensorData sensor3 = new SensorData();
+            sensor3.setAirflowRate(1900.0);
+            sensor3.setVibrationLevel(0.04);
+            sensor3.setTimestamp(LocalDateTime.now().minusMinutes(8));
+            sensor3.setDevice(device3);
+
+            SensorData sensor4 = new SensorData();
+            sensor4.setTemperature(21.8);
+            sensor4.setEnergySaver(false);
+            sensor4.setTimestamp(LocalDateTime.now().minusMinutes(7));
+            sensor4.setDevice(device4);
+
+            SensorData sensor6 = new SensorData();
+            sensor6.setAirflowRate(1750.0);
+            sensor6.setVibrationLevel(0.07);
+            sensor6.setTimestamp(LocalDateTime.now().minusMinutes(5));
+            sensor6.setDevice(device6);
+
+            SensorData sensor7 = new SensorData();
+            sensor7.setAirflowRate(1750.0);
+            sensor7.setVibrationLevel(0.07);
+            sensor7.setTimestamp(LocalDateTime.now().minusMinutes(4));
+            sensor7.setDevice(device7);
+
+            SensorData sensor8 = new SensorData();
+            sensor8.setAirflowRate(1600.0);
+            sensor8.setVibrationLevel(0.05);
+            sensor8.setTimestamp(LocalDateTime.now().minusMinutes(3));
+            sensor8.setDevice(device8);
+
+            SensorData sensor9 = new SensorData();
+            sensor9.setDischargePressure(211.1);
+            sensor9.setFanMotorCurrent(2);
+            sensor9.setTimestamp(LocalDateTime.now().minusMinutes(2));
+            sensor9.setDevice(device9);
+
+            SensorData sensor10 = new SensorData();
+            sensor10.setPortSpeed(21);
+            sensor10.setAccessLocked(false);
+            sensor10.setTimestamp(LocalDateTime.now().minusMinutes(1));
+            sensor10.setDevice(device10);
+
+            SensorData sensor11 = new SensorData();
+            sensor11.setPortSpeed(14);
+            sensor11.setAccessLocked(false);
+            sensor11.setTimestamp(LocalDateTime.now());
+            sensor11.setDevice(device11);
+
+            SensorData sensor12 = new SensorData();
+            sensor12.setDischargePressure(210.5);
+            sensor12.setFanMotorCurrent(3.3);
+            sensor12.setTimestamp(LocalDateTime.now().minusHours(1));
+            sensor12.setDevice(device12);
+
+            SensorData sensor13 = new SensorData();
+            sensor13.setVoltageOutput(230.0);
+            sensor13.setCurrentLimit(20.0);
+            sensor13.setTimestamp(LocalDateTime.now().minusHours(2));
+            sensor13.setDevice(device13);
+
+            SensorData sensor14 = new SensorData();
+            sensor13.setVoltageOutput(210.0);
+            sensor13.setCurrentLimit(23.0);
+            sensor14.setTimestamp(LocalDateTime.now().minusHours(3));
+            sensor14.setDevice(device14);
+
+            SensorData sensor15 = new SensorData();
+            sensor15.setDischargePressure(220.5);
+            sensor15.setFanMotorCurrent(4.3);
+            sensor15.setTimestamp(LocalDateTime.now().minusHours(4));
+            sensor15.setDevice(device15);
+
+            SensorData sensor16 = new SensorData();
+            sensor16.setPortSpeed(16);
+            sensor16.setAccessLocked(true);
+            sensor16.setTimestamp(LocalDateTime.now().minusHours(5));
+            sensor16.setDevice(device16);
+
+            SensorData sensor17 = new SensorData();
+            sensor16.setPortSpeed(16);
+            sensor16.setAccessLocked(true);
+            sensor17.setTimestamp(LocalDateTime.now().minusHours(6));
+            sensor17.setDevice(device17);
+
+            SensorData sensor18 = new SensorData();
+            sensor18.setAirflowRate(1800.0);
+            sensor18.setVibrationLevel(0.08);
+            sensor18.setTimestamp(LocalDateTime.now().minusHours(7));
+            sensor18.setDevice(device18);
+
+            deviceRepository.save(device1);
+            deviceRepository.save(device2);
+            deviceRepository.save(device3);
+            deviceRepository.save(device4);
+            deviceRepository.save(device6);
+            deviceRepository.save(device7);
+            deviceRepository.save(device8);
+            deviceRepository.save(device9);
+            deviceRepository.save(device10);
+            deviceRepository.save(device11);
+            deviceRepository.save(device12);
+            deviceRepository.save(device13);
+            deviceRepository.save(device14);
+            deviceRepository.save(device15);
+            deviceRepository.save(device16);
+            deviceRepository.save(device17);
+            deviceRepository.save(device18);
+
+            sensorDataRepository.save(sensor1);
+            sensorDataRepository.save(sensor2);
+            sensorDataRepository.save(sensor3);
+            sensorDataRepository.save(sensor4);
+            sensorDataRepository.save(sensor6);
+            sensorDataRepository.save(sensor7);
+            sensorDataRepository.save(sensor8);
+            sensorDataRepository.save(sensor9);
+            sensorDataRepository.save(sensor10);
+            sensorDataRepository.save(sensor11);
+            sensorDataRepository.save(sensor12);
+            sensorDataRepository.save(sensor13);
+            sensorDataRepository.save(sensor14);
+            sensorDataRepository.save(sensor15);
+            sensorDataRepository.save(sensor16);
+            sensorDataRepository.save(sensor17);
+            sensorDataRepository.save(sensor18);
+
+            device1.setSensorDataList(List.of(sensor1));
+            device2.setSensorDataList(List.of(sensor2));
+            device3.setSensorDataList(List.of(sensor3));
+            device4.setSensorDataList(List.of(sensor4));
+            device6.setSensorDataList(List.of(sensor6));
+            device7.setSensorDataList(List.of(sensor7));
+            device8.setSensorDataList(List.of(sensor8));
+            device9.setSensorDataList(List.of(sensor9));
+            device10.setSensorDataList(List.of(sensor10));
+            device11.setSensorDataList(List.of(sensor11));
+            device12.setSensorDataList(List.of(sensor12));
+            device13.setSensorDataList(List.of(sensor13));
+            device14.setSensorDataList(List.of(sensor14));
+            device15.setSensorDataList(List.of(sensor15));
+            device16.setSensorDataList(List.of(sensor16));
+            device17.setSensorDataList(List.of(sensor17));
+            device18.setSensorDataList(List.of(sensor18));
+
         };
     }
 }
