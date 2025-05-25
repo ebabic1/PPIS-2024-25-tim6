@@ -1,5 +1,6 @@
 package ba.unsa.etf.ppis.tim6.mapper;
 
+import ba.unsa.etf.ppis.tim6.dto.GenerateReportDTO;
 import ba.unsa.etf.ppis.tim6.dto.ReportDTO;
 import ba.unsa.etf.ppis.tim6.model.Report;
 import org.mapstruct.Mapper;
@@ -19,11 +20,15 @@ public interface ReportMapper {
     @Mapping(target = "created_by_name", source = "createdBy.username")
     ReportDTO reportToReportDTO(Report report);
 
+    @Mapping(target = "reportId", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    Report generateReportDTOToReport(GenerateReportDTO dto);
+
     @Named("formatDateTime")
-    public default String formatDateTime(LocalDateTime dateTime) {
+    default String formatDateTime(LocalDateTime dateTime) {
         if (dateTime == null) return null;
         return dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
-    Report reportDTOToReport(ReportDTO ReportDTO);
+    Report reportDTOToReport(ReportDTO reportDTO);
 }

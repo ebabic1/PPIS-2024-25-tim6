@@ -25,6 +25,18 @@ public class Report {
 
     private LocalDateTime createdAt;
 
+    private boolean includeIncidents;
+
+    private boolean includeEvents;
+
+    private boolean includeArticleStats;
+
+    private boolean includeOrders;
+
+    private boolean includeDeviceStats;
+
+    private boolean includeBackups;
+
     @ManyToOne
     @JoinColumn(name = "created_by")
     private User createdBy;

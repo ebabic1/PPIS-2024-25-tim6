@@ -297,21 +297,35 @@ public class LoadDatabase {
             report1.setReportType(Report.ReportType.MONTHLY);
             report1.setContent("Monthly report covering system performance, incidents, and backups.");
             report1.setCreatedAt(LocalDateTime.now().minusDays(10));
-            report1.setCreatedBy(user1);  // Assuming user1 is the creator
+            report1.setCreatedBy(user2);
+            report1.setIncludeBackups(true);
+            report1.setIncludeArticleStats(true);
+            report1.setIncludeDeviceStats(true);
+            report1.setIncludeEvents(true);
+            report1.setIncludeIncidents(true);
+            report1.setIncludeOrders(true);
+            // Assuming user1 is the creator
             reportRepository.save(report1);
 
             Report report2 = new Report();
             report2.setReportType(Report.ReportType.QUARTERLY);
             report2.setContent("Quarterly report detailing performance metrics, incidents, and future plans.");
             report2.setCreatedAt(LocalDateTime.now().minusDays(30));
-            report2.setCreatedBy(user2);  // Assuming user2 is the creator
+            report2.setCreatedBy(user2);
+            report2.setIncludeBackups(true);
+            report2.setIncludeArticleStats(true);
+            report2.setIncludeDeviceStats(true);// Assuming user2 is the creator
             reportRepository.save(report2);
 
             Report report3 = new Report();
             report3.setReportType(Report.ReportType.YEARLY);
             report3.setContent("Yearly review covering overall system performance, incidents, and resolutions.");
             report3.setCreatedAt(LocalDateTime.now().minusMonths(3));
-            report3.setCreatedBy(user1);  // Assuming user1 is the creator
+            report3.setCreatedBy(user2);
+            report3.setIncludeDeviceStats(true);
+            report3.setIncludeEvents(true);
+            report3.setIncludeIncidents(true);
+            report3.setIncludeOrders(true);// Assuming user1 is the creator
             reportRepository.save(report3);
 
             System.out.println("Sample report entries initialized.");
