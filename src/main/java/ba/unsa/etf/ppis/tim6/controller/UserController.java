@@ -1,8 +1,6 @@
 package ba.unsa.etf.ppis.tim6.controller;
 
-import ba.unsa.etf.ppis.tim6.dto.ReportDTO;
 import ba.unsa.etf.ppis.tim6.dto.UserDTO;
-import ba.unsa.etf.ppis.tim6.mapper.ReportMapper;
 import ba.unsa.etf.ppis.tim6.mapper.UserMapper;
 import ba.unsa.etf.ppis.tim6.model.Role;
 import ba.unsa.etf.ppis.tim6.model.User;
