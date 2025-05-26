@@ -190,7 +190,7 @@ public class LoadDatabase {
             // Entry 1
             Backup backup1 = new Backup();
             backup1.setBackupTime(LocalDateTime.now().minusDays(7));
-            backup1.setBackupSize("1500 MB"); // Size in MB
+            backup1.setBackupSize("1500 MB");
             backup1.setBackupLocation("AWS S3");
             backup1.setStatus(Backup.Status.SUCCESSFUL);
             backupRepository.save(backup1);
@@ -198,7 +198,7 @@ public class LoadDatabase {
             // Entry 2
             Backup backup2 = new Backup();
             backup2.setBackupTime(LocalDateTime.now().minusDays(1));
-            backup2.setBackupSize("2000 MB"); // Size in MB
+            backup2.setBackupSize("2000 MB");
             backup2.setBackupLocation("Azure Blob");
             backup2.setStatus(Backup.Status.FAILED);
             backupRepository.save(backup2);
@@ -206,7 +206,7 @@ public class LoadDatabase {
             // Entry 3
             Backup backup3 = new Backup();
             backup3.setBackupTime(LocalDateTime.now().plusDays(3));
-            backup3.setBackupSize("1800 MB"); // Size in MB
+            backup3.setBackupSize("1800 MB");
             backup3.setBackupLocation("Google Cloud Storage");
             backup3.setStatus(Backup.Status.PENDING);
             backupRepository.save(backup3);
@@ -214,44 +214,59 @@ public class LoadDatabase {
             // Entry 4
             Backup backup4 = new Backup();
             backup4.setBackupTime(LocalDateTime.now().minusDays(3));
-            backup4.setBackupSize("1300 MB"); // Size in MB
+            backup4.setBackupSize("1300 MB");
             backup4.setBackupLocation("Google Cloud Storage");
             backup4.setStatus(Backup.Status.FAILED);
             backupRepository.save(backup4);
 
             System.out.println("Sample backup entries initialized.");
 
-            String pdfFilePath = new ClassPathResource("pdfs/emergency_document.pdf").getFile().getPath();
-            byte[] pdfBytes = Files.readAllBytes(Paths.get(pdfFilePath));
-
-            // Entry 1: Emergency Document
+            // Entry 1: Warehouse Fire Response Plan
+            String firePlanPath = new ClassPathResource("pdfs/Warehouse Fire Response Plan.pdf").getFile().getPath();
+            byte[] firePlanBytes = Files.readAllBytes(Paths.get(firePlanPath));
             Documentation doc1 = new Documentation();
             doc1.setDocumentType(Documentation.DocumentType.EMERGENCY);
-            doc1.setContent(pdfBytes);
+            doc1.setContent(firePlanBytes);
             doc1.setCreatedAt(LocalDateTime.now().minusDays(10));
-            doc1.setCreatedBy(user1);
-            doc1.setFileName("emergency_document.pdf");
+            doc1.setCreatedBy(user4);
+            doc1.setFileName("Warehouse Fire Response Plan.pdf");
             documentationRepository.save(doc1);
 
-            // Entry 2: Technical Guide
+            // Entry 2: Power Outage Response Plan
+            String powerOutagePath = new ClassPathResource("pdfs/Power Outage Response Plan.pdf").getFile().getPath();
+            byte[] powerOutageBytes = Files.readAllBytes(Paths.get(powerOutagePath));
             Documentation doc2 = new Documentation();
             doc2.setDocumentType(Documentation.DocumentType.TECHNICAL_GUIDE);
-            doc2.setContent(pdfBytes);
+            doc2.setContent(powerOutageBytes);
             doc2.setCreatedAt(LocalDateTime.now().minusDays(5));
-            doc2.setCreatedBy(user2);
-            doc2.setFileName("emergency_document.pdf");
+            doc2.setCreatedBy(user4);
+            doc2.setFileName("Power Outage Response Plan.pdf");
             documentationRepository.save(doc2);
 
-            // Entry 3: Another Emergency Document
+            // Entry 3: Warehouse Flood Response Plan
+            String floodPlanPath = new ClassPathResource("pdfs/Warehouse Flood Response Plan.pdf").getFile().getPath();
+            byte[] floodPlanBytes = Files.readAllBytes(Paths.get(floodPlanPath));
             Documentation doc3 = new Documentation();
             doc3.setDocumentType(Documentation.DocumentType.EMERGENCY);
-            doc3.setContent(pdfBytes);
+            doc3.setContent(floodPlanBytes);
             doc3.setCreatedAt(LocalDateTime.now().minusDays(1));
-            doc3.setCreatedBy(user1);
-            doc3.setFileName("emergency_document.pdf");
+            doc3.setCreatedBy(user4);
+            doc3.setFileName("Warehouse Flood Response Plan.pdf");
             documentationRepository.save(doc3);
 
+            // Entry 4: Warehouse Network Connection Loss Response Plan
+            String networkLossPath = new ClassPathResource("pdfs/Warehouse Network Connection Loss Response Plan.pdf").getFile().getPath();
+            byte[] networkLossBytes = Files.readAllBytes(Paths.get(networkLossPath));
+            Documentation doc4 = new Documentation();
+            doc4.setDocumentType(Documentation.DocumentType.TECHNICAL_GUIDE);
+            doc4.setContent(networkLossBytes);
+            doc4.setCreatedAt(LocalDateTime.now().minusDays(2));
+            doc4.setCreatedBy(user4);
+            doc4.setFileName("Warehouse Network Connection Loss Response Plan.pdf");
+            documentationRepository.save(doc4);
+
             System.out.println("Sample documentation entries initialized.");
+
 
             // Incident Entries
             Incident incident1 = new Incident();
